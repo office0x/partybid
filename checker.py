@@ -29,6 +29,7 @@ for wallet in wallets:
         contributions = data.get("activity", {}).get("user", {}).get("crowdfundContributions", [])
 
         total_unclaimed = 0  # Running total of unclaimed amounts in ETH
+        unclaimed_parties = ""
 
         if contributions:
             # For each contribution, get the crowdfund address and amount
@@ -47,12 +48,13 @@ for wallet in wallets:
                     # If not claimed, add the amount to the total
                     if not has_claimed:
                         total_unclaimed += eth_amount
+                        unclaimed_parties += f" {crowdfund_address}"
 
                 else:
                     print(f"Failed to retrieve crowdfund details for address {crowdfund_address}.")
         
         if total_unclaimed > 0:
-            print(f"{wallet}, Unclaimed: {total_unclaimed}")
+            print(f"{wallet}, Unclaimed: {total_unclaimed}, parties:{unclaimed_parties}")
         else:
             print(f"{wallet}, Unclaimed: 0")
     else:
